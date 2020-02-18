@@ -1,6 +1,6 @@
 document
   .querySelector('header button')
-  .addEventListener("click", function() {
+  .addEventListener("click", function () {
     document.querySelector('.form')
-    .classList.toggle('hide');
+      .classList.toggle('hide');
   });

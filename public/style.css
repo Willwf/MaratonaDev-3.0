@@ -1,8 +1,8 @@
 /* GLOBAL */
 
 * {
-    /* corrigindo comportamento padrão css */
-    box-sizing: border-box;
+  /* corrigindo comportamento padrão css */
+  box-sizing: border-box;
 }
 
 html, body {
@@ -93,8 +93,7 @@ section.form {
   border-radius: 6px;
 }
 
-form input,
-form button {
+form input, form button {
   /* largura */
   width: 100%;
 
@@ -158,6 +157,7 @@ main .donors {
 
 .donor p {
   margin-top: 24px;
+  margin-bottom: 44px;
   font-size: 14px;
 }
 
