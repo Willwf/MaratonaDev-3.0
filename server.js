@@ -28,7 +28,7 @@ nunjucks.configure('./', {
 // Configurar a apresentação da página
 server.get('/', function(req, res) {
 
-  db.query("SELECT * FROM donors", function(err, result) {
+  db.query("SELECT * FROM doador ORDER BY id DESC LIMIT 8", function(err, result) {
     if (err) return res.send("Erro no banco de dados");
 
     const donors = result.rows;
