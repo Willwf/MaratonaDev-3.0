@@ -1,6 +1,7 @@
 // Configurando o servidor
 const express = require('express');
 const server = express();
+require('dotenv/config');
 
 // Configurar o servidor para apresentar arquivos estáticos
 server.use(express.static('public'))
@@ -10,12 +11,14 @@ server.use(express.urlencoded({ extended: true }));
 
 // Configurar a conexão com o banco de dados
 const Pool = require('pg').Pool;
+require('dotenv/config');
+
 const db = new Pool({
-  user: 'postgres',
-  password: '******',
-  host: 'localhost',
-  port: 5432,
-  database: 'donation'
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE
 });
 
 // Configurando a template engine
@@ -26,9 +29,9 @@ nunjucks.configure('./', {
 });
 
 // Configurar a apresentação da página
-server.get('/', function(req, res) {
+server.get('/', function (req, res) {
 
-  db.query("SELECT * FROM doador ORDER BY id DESC LIMIT 8", function(err, result) {
+  db.query("SELECT * FROM doador ORDER BY id DESC LIMIT 2", function (err, result) {
     if (err) return res.send("Erro no banco de dados");
 
     const donors = result.rows;
@@ -37,7 +40,7 @@ server.get('/', function(req, res) {
 
 });
 
-server.post('/', function(req, res) {
+server.post('/', function (req, res) {
   // Pegar dados do formulário.
   const name = req.body.name;
   const email = req.body.email;
@@ -51,14 +54,14 @@ server.post('/', function(req, res) {
   }
 
   // Coloco valores dentro do banco de dados.
-  const query = 
+  const query =
     `INSERT INTO donors ("name", "email", "blood")
     VALUES ($1, $2, $3)`
 
   const values = [name, email, blood];
 
 
-  db.query(query, values, function(err) {
+  db.query(query, values, function (err) {
     // fluxo de erro
     if (err) return res.send("Erro no banco de dados.");
 
@@ -68,6 +71,6 @@ server.post('/', function(req, res) {
 });
 
 // Ligar o servidor e permitir o acesso na porta 3000
-server.listen(3000, function() {
+server.listen(3000, function () {
   console.log('Iniciei o servidor.');
 });
